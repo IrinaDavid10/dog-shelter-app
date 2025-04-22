@@ -1,7 +1,6 @@
 package com.dogshelter.dog_shelter_app.persistance.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,21 +10,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "dog")
+@Table(name = "client")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DogEntity {
+public class ClientEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    //@NotBlank
-    @Column(name="dog_name", length=50)
-    private String name;
-    @Column(name = "dog_breed", length =50)
-    private String breed;
+    @Column(name="last_name", length=50)
+    private String firstName;
+    @Column(name="first_name", length=50)
+    private String lastName;
+    @Column(name="user_phone", length=50)
+    private String phoneNumber;
 
-    @OneToMany(mappedBy = "dogEntity")
+    @OneToMany(mappedBy = "clientEntity")
     private Set<AppointmentEntity> appointmentEntitySet = new HashSet<>();
 }

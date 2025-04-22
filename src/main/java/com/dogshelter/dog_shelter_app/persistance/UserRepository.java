@@ -1,4 +1,9 @@
 package com.dogshelter.dog_shelter_app.persistance;
 
-public class UserRepository {
+import com.dogshelter.dog_shelter_app.persistance.entity.ClientEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<ClientEntity,Long> {
 }

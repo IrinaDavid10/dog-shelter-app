@@ -20,12 +20,12 @@ public class DogEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    //@NotBlank
+    @NotBlank
     @Column(name="dog_name", length=50)
     private String name;
+    @NotBlank
     @Column(name = "dog_breed", length =50)
     private String breed;
-
     @OneToMany(mappedBy = "dogEntity")
     private Set<AppointmentEntity> appointmentEntitySet = new HashSet<>();
 }

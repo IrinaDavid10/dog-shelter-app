@@ -25,7 +25,6 @@ public class ClientEntity {
     private String lastName;
     @Column(name="user_phone", length=50)
     private String phoneNumber;
-
     @OneToMany(mappedBy = "clientEntity")
     private Set<AppointmentEntity> appointmentEntitySet = new HashSet<>();
 }

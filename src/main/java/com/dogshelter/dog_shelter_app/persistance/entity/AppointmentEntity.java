@@ -20,11 +20,9 @@ public class AppointmentEntity {
     private Long id;
     @Column(name="appointment_date")
     private Date appointmentDate;
-
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientEntity clientEntity;
-
     @ManyToOne
     @JoinColumn(name = "dog_id")
     private DogEntity dogEntity;

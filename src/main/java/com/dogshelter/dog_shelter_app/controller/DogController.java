@@ -4,9 +4,11 @@ import com.dogshelter.dog_shelter_app.business.DogService;
 import com.dogshelter.dog_shelter_app.domain.request.CreateDogRequest;
 import com.dogshelter.dog_shelter_app.persistance.DogRepository;
 import com.dogshelter.dog_shelter_app.persistance.entity.DogEntity;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 @AllArgsConstructor
 public class DogController {
     private final DogService dogService;
-    private final DogRepository dogRepository;
 
-    public ResponseEntity<String>createDog(@RequestBody CreateDogRequest request){
+    @PostMapping("/create")
+    public ResponseEntity<String>createDog(@Valid @RequestBody CreateDogRequest request){
         // creaza un caine cu datele din request
         DogEntity dog = DogEntity.builder()
                 .name(request.getName())
@@ -30,7 +32,7 @@ public class DogController {
             return ResponseEntity.ok("Successfully created a dog.");
         }
         return ResponseEntity.ok("Could not create dog.");
-        // afiseaza true daca a salvat altfel false
+        // afiseaza ceva pt ca a salvat
 
 
 

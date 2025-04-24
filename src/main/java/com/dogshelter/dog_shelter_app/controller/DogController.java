@@ -1,18 +1,16 @@
 package com.dogshelter.dog_shelter_app.controller;
 
 import com.dogshelter.dog_shelter_app.business.DogService;
+import com.dogshelter.dog_shelter_app.domain.dto.DogDTO;
 import com.dogshelter.dog_shelter_app.domain.request.CreateDogRequest;
-import com.dogshelter.dog_shelter_app.persistance.DogRepository;
 import com.dogshelter.dog_shelter_app.persistance.entity.DogEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dogs")
@@ -34,8 +32,17 @@ public class DogController {
         return ResponseEntity.ok("Could not create dog.");
         // afiseaza ceva pt ca a salvat
 
+    }
+    @GetMapping("/{id}")
+    public Optional<DogDTO> getDog(@PathVariable Long id){
+        Optional<DogDTO> dog = dogService.getDog(id);
+        return dog;
+    }
 
-
+    @GetMapping()
+    public Optional<List<DogDTO>> getAllDogs(){
+        Optional<List<DogDTO>> dogDTOList = dogService.getAllDogs();
+        return dogDTOList;
     }
 
 }

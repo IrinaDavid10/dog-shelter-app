@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class DogServiceImplementation implements DogService {
 
     private DogRepository dogRepository;
+    private final DogApiServiceImplementation dogApiServiceImplementation;
     private DogMapper dogMapper;
 
     @Override
@@ -28,6 +29,8 @@ public class DogServiceImplementation implements DogService {
         DogEntity dog = DogEntity.builder()
                 .name(name)
                 .breed(breed).build();
+        String imageUrl = dogApiServiceImplementation.fetchRandomImage();
+        dog.setImageUrl(imageUrl);
         dogRepository.save(dog);
         return dog;
     }

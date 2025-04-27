@@ -26,6 +26,7 @@ public class DogEntity {
     @NotBlank
     @Column(name = "dog_breed", length =50)
     private String breed;
+    private String imageUrl;
     @OneToMany(mappedBy = "dogEntity")
     private Set<AppointmentEntity> appointmentEntitySet = new HashSet<>();
 }

@@ -18,8 +18,10 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(name="appointment_date")
-    private Date appointmentDate;
+    @Column(name="start_date")
+    private Date startDate;
+    @Column(name="end_date")
+    private Date endDate;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientEntity clientEntity;

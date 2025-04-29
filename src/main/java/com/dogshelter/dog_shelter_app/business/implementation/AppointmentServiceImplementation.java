@@ -11,6 +11,7 @@ import com.dogshelter.dog_shelter_app.persistance.entity.DogEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,16 +22,38 @@ public class AppointmentServiceImplementation implements AppointmentService {
     private DogRepository dogRepository;
     @Override
     public AppointmentEntity createAppointment(CreateAppointmentRequest request) {
-        Optional<ClientEntity> clientEntity = clientRepository.findById(request.getClientId());
-        Optional<DogEntity> dogEntity = dogRepository.findById(request.getDogId());
-        if(clientEntity.isEmpty() || dogEntity.isEmpty()){
-            return null;
+        ClientEntity clientEntity;
+        DogEntity dogEntity;
+        if(request.getClientId() == null){
+            ClientEntity client = ClientEntity.builder()
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
+                    .phoneNumber(request.getPhoneNumber())
+                    .build();
+           clientEntity = clientRepository.save(client);
+        }else{
+            Optional<ClientEntity> optionalClientEntity = clientRepository.findById(request.getClientId());
+            if(optionalClientEntity.isEmpty()){
+                throw new NoSuchElementException("No such client");
+
+            }
+            clientEntity = optionalClientEntity.get();
         }
+        if(request.getDogId() == null){
+            throw new NoSuchElementException("No such dog");
+        }else {
+            Optional<DogEntity> optionalDogEntity = dogRepository.findById(request.getDogId());
+            if(optionalDogEntity.isEmpty()){
+                throw new NoSuchElementException("No such dog");
+            }
+            dogEntity = optionalDogEntity.get();
+        }
+
             AppointmentEntity appointmentEntity = AppointmentEntity.builder()
                     .startDate(request.getStartDate())
                     .endDate(request.getEndDate())
-                    .clientEntity(clientEntity.get())
-                    .dogEntity(dogEntity.get())
+                    .clientEntity(clientEntity)
+                    .dogEntity(dogEntity)
                     .build();
 
         appointmentRepository.save(appointmentEntity);

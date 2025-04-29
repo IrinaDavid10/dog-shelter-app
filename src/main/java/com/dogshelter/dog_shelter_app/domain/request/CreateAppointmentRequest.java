@@ -9,6 +9,9 @@ public class CreateAppointmentRequest {
     private Date startDate;
     private Date endDate;
     private Long clientId;
+    private String firstName = null;
+    private String lastName = null;
+    private String phoneNumber = null;
     private Long dogId;
 }
 

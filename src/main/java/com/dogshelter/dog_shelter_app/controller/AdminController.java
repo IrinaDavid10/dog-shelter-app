@@ -38,7 +38,8 @@ public class AdminController {
     @PostMapping("/loginAdmin")
     public ResponseEntity<AdminResponse> login(@RequestBody AdminRequest request){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword()));
-        String token = jwtUtil.generateToken(request.getUsername());
+        AdminEntity adminEntity = adminService.findByUsername(request.getUsername());
+        String token = jwtUtil.generateToken(request.getUsername(), adminEntity.getRoles());
         return ResponseEntity.ok(new AdminResponse(token,"Token generated successfully!"));
     }
 

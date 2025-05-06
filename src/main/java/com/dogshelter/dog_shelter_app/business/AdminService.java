@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface AdminService {
     Long saveAdmin(AdminEntity adminEntity);
-    Optional<AdminEntity> findByUsername(String username);
+    AdminEntity findByUsername(String username);
 }

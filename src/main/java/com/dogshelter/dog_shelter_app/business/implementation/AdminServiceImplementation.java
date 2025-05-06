@@ -32,8 +32,9 @@ public class AdminServiceImplementation implements AdminService, UserDetailsServ
     }
 
     @Override
-    public Optional<AdminEntity> findByUsername(String username) {
-        return adminRepository.findByUsername(username);
+    public AdminEntity findByUsername(String username) {
+        return adminRepository.findByUsername(username)
+                .orElseThrow(() ->new UsernameNotFoundException("User not found with username: " + username));
     }
 
     @Override

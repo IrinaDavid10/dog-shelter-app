@@ -3,12 +3,13 @@ package com.dogshelter.dog_shelter_app.configuration.db.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.Random;
+import javax.crypto.SecretKey;
+import java.security.Key;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -16,47 +17,71 @@ public class JWTUtil {
 
     @Value("${app.secret.key}")
     private String secretKey;
+    @Value("${jwt.expiration:86400}")
+    private long expiration;
 
-
-    public String generateToken(String subject) {
-        String tokenId = String.valueOf(new Random().nextInt(10000));
+    public String generateToken(String username, Set<String> roles) {
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("roles", roles);
         return Jwts.builder()
-                .setId(tokenId)
-                .setSubject(subject)
-                .setIssuer("ABC_Ltd")
-                .setAudience("XYZ_Ltd")
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuer("Dog Shelter App")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1)))
-                .signWith(SignatureAlgorithm.HS512, Base64.getEncoder().encode(secretKey.getBytes()))
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(expiration)))
+                .signWith(key)
                 .compact();
     }
 
-    public Claims getClaims(String token) {
-
-        return Jwts.parser()
-                .setSigningKey(Base64.getEncoder().encode(secretKey.getBytes()))
-                .parseClaimsJws(token)
-                .getBody();
+    public List<String> getRolesFromToken(String token) {
+        try {
+            SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Object rolesObj = claims.get("roles");
+            if (rolesObj instanceof Collection) {
+                return new ArrayList<>((Collection<String>) rolesObj);
+            }
+            return new ArrayList<>();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
-    public boolean isValidToken(String token) {
-        return getClaims(token).getExpiration().after(new Date(System.currentTimeMillis()));
+
+
+    public String getSubject(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
     public boolean isValidToken(String token, String username) {
-        String tokenUserName = getSubject(token);
-        return (username.equals(tokenUserName) && !isTokenExpired(token));
+        String tokenUsername = getSubject(token);
+        return (username.equals(tokenUsername) && !isTokenExpired(token));
+}
+
+    private boolean isTokenExpired(String token) {
+        Date expiration = getExpirationDate(token);
+        return expiration.before(new Date());
     }
 
-    public boolean isTokenExpired(String token) {
-        return getExpirationDate(token).before(new Date(System.currentTimeMillis()));
+    private Date getExpirationDate(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration();
     }
 
-    public Date getExpirationDate(String token) {
-        return getClaims(token).getExpiration();
-    }
-
-    public String getSubject(String token) {
-        return getClaims(token).getSubject();
-    }
 }

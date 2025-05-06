@@ -4,6 +4,7 @@ import com.dogshelter.dog_shelter_app.business.DogService;
 import com.dogshelter.dog_shelter_app.domain.dto.DogDTO;
 import com.dogshelter.dog_shelter_app.domain.request.CreateDogRequest;
 import com.dogshelter.dog_shelter_app.persistance.entity.DogEntity;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class DogController {
     }
 
     @GetMapping()
+    @RolesAllowed({"ROLE_ADMIN"})
     public Optional<List<DogDTO>> getAllDogs(){
         Optional<List<DogDTO>> dogDTOList = dogService.getAllDogs();
         return dogDTOList;

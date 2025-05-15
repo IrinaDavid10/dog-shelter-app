@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .anonymous(anonymous -> anonymous.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/dogs/**").permitAll()
+                        .requestMatchers("/admin/loginAdmin").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

@@ -41,7 +41,7 @@ public class DogController {
     }
 
     @GetMapping()
-    //@RolesAllowed({"ROLE_ADMIN"})
+    @RolesAllowed({"ROLE_ADMIN"})
     public Optional<List<DogDTO>> getAllDogs(){
         Optional<List<DogDTO>> dogDTOList = dogService.getAllDogs();
         return dogDTOList;

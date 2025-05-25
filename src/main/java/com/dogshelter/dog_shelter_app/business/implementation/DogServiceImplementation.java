@@ -54,4 +54,14 @@ public class DogServiceImplementation implements DogService {
         }
         return dogDTOList;
     }
+
+    @Override
+    public boolean deleteDog(Long id) {
+        Optional<DogEntity> dog = dogRepository.findById(id);
+        if(dog.isPresent()){
+            dogRepository.delete(dog.get());
+            return true;
+        }
+        return false;
+    }
 }

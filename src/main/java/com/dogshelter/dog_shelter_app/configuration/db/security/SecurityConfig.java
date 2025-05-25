@@ -61,7 +61,8 @@ public class SecurityConfig {
                 .anonymous(anonymous -> anonymous.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/loginAdmin").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/dogs/createDog").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationEntryPoint)

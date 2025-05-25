@@ -2,17 +2,15 @@ package com.dogshelter.dog_shelter_app.persistance.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "dog")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +25,6 @@ public class DogEntity {
     @Column(name = "dog_breed", length =50)
     private String breed;
     private String imageUrl;
-    @OneToMany(mappedBy = "dogEntity")
+    @OneToMany(mappedBy = "dogEntity",cascade = CascadeType.ALL)
     private Set<AppointmentEntity> appointmentEntitySet = new HashSet<>();
 }

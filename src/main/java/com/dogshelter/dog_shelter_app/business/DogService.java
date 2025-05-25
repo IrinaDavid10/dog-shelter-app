@@ -10,4 +10,5 @@ public interface DogService {
     public DogEntity createDog(String name, String breed);
     public Optional<DogDTO> getDog(Long id);
     public Optional<List<DogDTO>> getAllDogs();
+    public boolean deleteDog(Long id);
 }

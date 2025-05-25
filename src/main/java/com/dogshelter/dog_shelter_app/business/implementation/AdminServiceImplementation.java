@@ -1,10 +1,12 @@
 package com.dogshelter.dog_shelter_app.business.implementation;
 
 import com.dogshelter.dog_shelter_app.business.AdminService;
+import com.dogshelter.dog_shelter_app.domain.request.AdminCreationRequest;
 import com.dogshelter.dog_shelter_app.persistance.AdminRepository;
 import com.dogshelter.dog_shelter_app.persistance.entity.AdminEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,9 +28,11 @@ public class AdminServiceImplementation implements AdminService, UserDetailsServ
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public Long saveAdmin(AdminEntity adminEntity) {
-        adminEntity.setPassword(bCryptPasswordEncoder.encode(adminEntity.getPassword()));
-        return adminRepository.save(adminEntity).getId();
+    public Long saveAdmin(AdminCreationRequest request) {
+        String password = request.getPassword();
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+        AdminEntity admin = AdminEntity.builder().username(request.getUsername()).password(encodedPassword).roles(Set.of("ROLE_ADMIN")).build();
+        return adminRepository.save(admin).getId();
     }
 
     @Override

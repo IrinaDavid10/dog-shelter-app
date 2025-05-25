@@ -43,16 +43,17 @@ public class DogServiceImplementation implements DogService {
 
     @Override
     public Optional<List<DogDTO>> getAllDogs() {
-        //Optional<List<DogDTO>> dogEntityList = Optional.of(dogRepository.findAll().stream().map(dogMapper::toDto).collect(Collectors.toList()));
-        Optional<List<DogEntity>> dogEntityList = Optional.of(dogRepository.findAll());
+        List<DogEntity> dogEntityList = dogRepository.findAll();
+
         if(dogEntityList.isEmpty()){
             return Optional.empty();
         }
-        Optional <List<DogDTO>> dogDTOList = Optional.of(new ArrayList<>());
-        for(DogEntity dog : dogEntityList.get()){
-           dogDTOList.get().add(dogMapper.toDto(dog));
+
+        List<DogDTO> dogDTOList = new ArrayList<>();
+        for(DogEntity dog : dogEntityList){
+            dogDTOList.add(dogMapper.toDto(dog));
         }
-        return dogDTOList;
+        return Optional.of(dogDTOList);
     }
 
     @Override

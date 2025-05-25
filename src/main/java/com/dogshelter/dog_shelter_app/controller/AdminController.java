@@ -4,7 +4,7 @@ import com.dogshelter.dog_shelter_app.business.AdminService;
 import com.dogshelter.dog_shelter_app.configuration.db.security.JWTUtil;
 import com.dogshelter.dog_shelter_app.domain.request.AdminCreationRequest;
 import com.dogshelter.dog_shelter_app.domain.request.AdminLoginRequest;
-import com.dogshelter.dog_shelter_app.domain.response.AdminResponse;
+import com.dogshelter.dog_shelter_app.domain.response.AdminLoginResponse;
 import com.dogshelter.dog_shelter_app.persistance.entity.AdminEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -39,11 +39,11 @@ public class AdminController {
     }
 
     @PostMapping("/loginAdmin")
-    public ResponseEntity<AdminResponse> login(@RequestBody AdminLoginRequest request){
+    public ResponseEntity<AdminLoginResponse> login(@RequestBody AdminLoginRequest request){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword()));
         AdminEntity adminEntity = adminService.findByUsername(request.getUsername());
         String token = jwtUtil.generateToken(request.getUsername(), adminEntity.getRoles());
-        return ResponseEntity.ok(new AdminResponse(token,"Token generated successfully!"));
+        return ResponseEntity.ok(new AdminLoginResponse(token,"Token generated successfully!"));
     }
 
 }

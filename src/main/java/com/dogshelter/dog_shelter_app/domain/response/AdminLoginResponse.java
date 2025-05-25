@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminResponse {
+public class AdminLoginResponse {
     private String token;
     private String message;
 }

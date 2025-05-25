@@ -2,6 +2,7 @@ package com.dogshelter.dog_shelter_app.persistance.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -18,10 +19,10 @@ public class DogEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+    @NotNull
     @Column(name="dog_name", length=50)
     private String name;
-    @NotBlank
+    @NotNull
     @Column(name = "dog_breed", length =50)
     private String breed;
     private String imageUrl;

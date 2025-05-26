@@ -1,4 +1,4 @@
-package com.dogshelter.dog_shelter_app.configuration.db.security;
+package com.dogshelter.dog_shelter_app.configuration.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

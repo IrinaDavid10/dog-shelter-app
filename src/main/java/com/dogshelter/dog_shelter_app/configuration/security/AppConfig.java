@@ -1,4 +1,4 @@
-package com.dogshelter.dog_shelter_app.configuration.db.security;
+package com.dogshelter.dog_shelter_app.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

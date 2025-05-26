@@ -1,4 +1,4 @@
-package com.dogshelter.dog_shelter_app.configuration.db.security;
+package com.dogshelter.dog_shelter_app.configuration.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

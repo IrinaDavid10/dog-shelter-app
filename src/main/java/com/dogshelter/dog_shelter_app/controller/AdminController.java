@@ -1,7 +1,7 @@
 package com.dogshelter.dog_shelter_app.controller;
 
 import com.dogshelter.dog_shelter_app.business.AdminService;
-import com.dogshelter.dog_shelter_app.configuration.db.security.JWTUtil;
+import com.dogshelter.dog_shelter_app.configuration.security.JWTUtil;
 import com.dogshelter.dog_shelter_app.domain.request.AdminCreationRequest;
 import com.dogshelter.dog_shelter_app.domain.request.AdminLoginRequest;
 import com.dogshelter.dog_shelter_app.domain.response.AdminLoginResponse;

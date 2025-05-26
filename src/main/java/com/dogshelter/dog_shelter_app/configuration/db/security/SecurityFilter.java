@@ -49,7 +49,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Validate token
             UserDetails user = userDetailsService.loadUserByUsername(username);
             boolean isValid = jwtUtil.isValidToken(token, user.getUsername());
 

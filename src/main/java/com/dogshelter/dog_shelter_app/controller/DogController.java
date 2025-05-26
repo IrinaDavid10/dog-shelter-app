@@ -38,17 +38,14 @@ public class DogController {
     @RolesAllowed({"ADMIN"})
     @PostMapping("/create")
     public ResponseEntity<String> createDog(@Valid @RequestBody CreateDogRequest request) {
-        // creaza un caine cu datele din request
         DogEntity dog = DogEntity.builder()
                 .name(request.getName())
                 .breed(request.getBreed()).build();
-        // salveaza cainele in database
         DogEntity doggy = dogService.createDog(dog.getName(), dog.getBreed());
         if (doggy != null) {
             return ResponseEntity.ok("Successfully created a dog.");
         }
         return ResponseEntity.ok("Could not create dog.");
-        // afiseaza ceva pt ca a salvat
 
     }
     @Operation(summary = "Get a dog by ID",

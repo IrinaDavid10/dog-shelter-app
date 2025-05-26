@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +24,7 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
+@EnableMethodSecurity(jsr250Enabled = true, prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig {
 
@@ -60,9 +60,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .anonymous(anonymous -> anonymous.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/loginAdmin").permitAll()
-                        .requestMatchers("/dogs/createDog").authenticated()
-                        .requestMatchers("/dogs").authenticated()
+                        .requestMatchers("/admin/loginAdmin", "/admin/saveAdmin").permitAll()
+                        .requestMatchers("/dogs/create").hasRole("ADMIN")
+                        .requestMatchers("/dogs").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(exception -> exception

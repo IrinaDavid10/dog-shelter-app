@@ -26,7 +26,9 @@ public class AdminEntity {
     @NotNull
     @Column(name="user_password")
     private String password;
-    @Column(name="user_role")
-    private Set<String>roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "admin_roles", joinColumns = @JoinColumn(name = "admin_id"))
+    @Column(name = "role")
+    private Set<String> roles = new HashSet<>();
 
 }

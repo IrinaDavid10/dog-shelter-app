@@ -35,7 +35,7 @@ public class DogController {
             @ApiResponse(responseCode = "401", description = "Unauthorized - Authentication required"),
             @ApiResponse(responseCode = "403", description = "Forbidden - Only ADMIN role can access this resource")
     })
-//    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN"})
     @PostMapping("/create")
     public ResponseEntity<String> createDog(@Valid @RequestBody CreateDogRequest request) {
         // creaza un caine cu datele din request
@@ -72,7 +72,7 @@ public class DogController {
             @ApiResponse(responseCode = "403", description = "Forbidden - Only ADMIN role can access this resource")
     })
     @GetMapping()
-    @RolesAllowed({"ROLE_ADMIN"})
+    @RolesAllowed({"ADMIN"})
     public Optional<List<DogDTO>> getAllDogs() {
         Optional<List<DogDTO>> dogDTOList = dogService.getAllDogs();
         return dogDTOList;

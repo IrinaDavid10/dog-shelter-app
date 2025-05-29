@@ -88,7 +88,7 @@ public class DogController {
         return dogService.deleteDog(id);
 
     }
-
+    @PutMapping("/{id}")
     public ResponseEntity<DogDTO> updateDog(@PathVariable Long id, @Valid @RequestBody DogDTO dogUpdateRequest) {
         Optional<DogDTO> updatedDogOptional = dogService.updateDog(id, dogUpdateRequest);
         if (updatedDogOptional.isPresent()) {

@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class DogDTO {
     private Long id;
     @NotBlank(message = "Dog name cannot be blank")
@@ -15,8 +16,4 @@ public class DogDTO {
     @NotBlank(message = "Dog breed cannot be blank")
     private String breed;
 
-    public DogDTO(String name, String breed) {
-        this.name = name;
-        this.breed = breed;
-    }
 }

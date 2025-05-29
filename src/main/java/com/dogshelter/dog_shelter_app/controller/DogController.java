@@ -88,4 +88,13 @@ public class DogController {
         return dogService.deleteDog(id);
 
     }
+
+    public ResponseEntity<DogDTO> updateDog(@PathVariable Long id, @Valid @RequestBody DogDTO dogUpdateRequest) {
+        Optional<DogDTO> updatedDogOptional = dogService.updateDog(id, dogUpdateRequest);
+        if (updatedDogOptional.isPresent()) {
+            return ResponseEntity.ok(updatedDogOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

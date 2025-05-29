@@ -11,4 +11,6 @@ public interface DogService {
     public Optional<DogDTO> getDog(Long id);
     public Optional<List<DogDTO>> getAllDogs();
     public boolean deleteDog(Long id);
+    public Optional<DogDTO> updateDog(Long id, DogDTO dogDetailsToUpdate);
+
 }

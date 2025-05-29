@@ -6,15 +6,11 @@ import com.dogshelter.dog_shelter_app.domain.mapper.DogMapper;
 import com.dogshelter.dog_shelter_app.persistance.DogRepository;
 import com.dogshelter.dog_shelter_app.persistance.entity.DogEntity;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.mapper.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -37,8 +33,7 @@ public class DogServiceImplementation implements DogService {
 
     @Override
     public Optional<DogDTO> getDog(Long id) {
-       Optional<DogDTO> dog = dogRepository.findById(id).map(dogMapper::toDto);
-       return dog;
+        return dogRepository.findById(id).map(dogMapper::toDto);
     }
 
     @Override
@@ -64,5 +59,24 @@ public class DogServiceImplementation implements DogService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Optional<DogDTO> updateDog(Long id, DogDTO dogDetailsToUpdate) {
+        Optional<DogEntity> existingDogOptional = dogRepository.findById(id);
+
+        if(existingDogOptional.isPresent()){
+            DogEntity existingDog = existingDogOptional.get();
+            if (dogDetailsToUpdate.getName() != null && !dogDetailsToUpdate.getName().isEmpty()) {
+                existingDog.setName(dogDetailsToUpdate.getName());
+            }
+            if (dogDetailsToUpdate.getBreed() != null && !dogDetailsToUpdate.getBreed().isEmpty()) {
+                existingDog.setBreed(dogDetailsToUpdate.getBreed());
+            }
+            DogEntity updatedDog = dogRepository.save(existingDog);
+            return Optional.of(dogMapper.toDto(updatedDog));
+        }else{
+            return Optional.empty();
+        }
     }
 }
